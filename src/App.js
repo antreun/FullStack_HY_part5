@@ -19,9 +19,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    blogService.getAll().then(blogs =>
+    blogService.getAll()
+
+
+    .then(blogs => {
+      blogs = this.sortBlogsByLikes(blogs)
       this.setState({ blogs })
+    }
     )
+
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -57,6 +63,11 @@ class App extends React.Component {
     }
   }
 
+  removeBlog = (id) => {
+    const remaining = this.state.blogs.filter(x=> x._id !== id);
+    this.setState({ blogs : remaining })
+  }
+
   newBlog = (event) => {
     event.preventDefault()
     this.blogForm.toggleVisibility()
@@ -72,12 +83,16 @@ class App extends React.Component {
       blogService
         .create(blogObject)
         .then(newBlog => {
+          newBlog.user = this.state.user
+          let newBlogs = this.state.blogs.concat(newBlog)
+          newBlogs = this.sortBlogsByLikes(newBlogs)
           this.setState({
-            blogs: this.state.blogs.concat(newBlog),
+            blogs: newBlogs,
             title: '',
             author: '',
             url: ''
           })
+
           this.notify('Lisätty blogi \''+newBlog.title+'\', kirjoittaja: '+newBlog.author)
         })
   }catch(exception) {
@@ -94,7 +109,30 @@ class App extends React.Component {
     }, 5000)
   }
 
+  sortBlogsByLikes(b) {
+    console.log("sorting...")
+
+    //let sortedBlogs = this.state.blogs
+    //console.log(sortedBlogs)
+    b.sort(function(a,b) {
+
+        if (a.likes > b.likes) {
+          return -1;
+        }
+        else {
+          return 1;
+        }
+
+
+      })
+
+      return b
+    }
+
+
+
   render() {
+
     if (this.state.user === null) {
       return (
         <form onSubmit={this.login}>
@@ -124,8 +162,6 @@ class App extends React.Component {
 
     return (
       <div>
-
-
         <Notification message={this.state.error}/>
 
         <p>{this.state.user.name} logged in &nbsp;
@@ -145,8 +181,9 @@ class App extends React.Component {
         </Togglable>
 
         <h3>Blog listing</h3>
+
         {this.state.blogs.map(blog =>
-          <Blog key={blog._id} blog={blog}/>
+          <Blog key={blog._id} blog={blog} user={this.state.user} removeFunction={this.removeBlog}/>
         )}
       </div>
     );
