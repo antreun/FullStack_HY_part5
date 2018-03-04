@@ -17,10 +17,7 @@ describe.only('<Blog />', () => {
     expect(infoDiv.text()).toContain(blog.title + " " + blog.author)
     expect(infoDiv.text()).not.toContain("likes")
   })
-})
 
-
-describe.only('<Blog />', () => {
   it('when clicked, shows full info', () => {
     const blog = {
         title: "Blog title",

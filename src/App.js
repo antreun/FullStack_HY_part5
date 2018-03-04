@@ -135,7 +135,7 @@ class App extends React.Component {
 
     if (this.state.user === null) {
       return (
-        <form onSubmit={this.login}>
+        <form className="login" onSubmit={this.login}>
         <Notification message={this.state.error}/>
           <div>
             käyttäjätunnus

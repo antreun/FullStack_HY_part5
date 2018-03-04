@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const BlogForm = ({ onSubmit, handleChange, title, author, url}) => {
   return (
-    <div>
+    <div className="login">
       <h2>Create a new Blog</h2>
 
     <form onSubmit={onSubmit}>
