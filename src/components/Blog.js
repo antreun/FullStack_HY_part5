@@ -19,7 +19,6 @@ class Blog extends React.Component {
 
   deleteBlog = (event) => {
     const blog = this.props.blog
-    const user = this.props.user
     console.log("deleting blog "+blog.title)
     if (window.confirm("Are you sure you want to remove ''"+blog.title+"' by "+blog.author+"?")) {
 
