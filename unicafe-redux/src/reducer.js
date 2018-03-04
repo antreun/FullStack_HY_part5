@@ -18,7 +18,7 @@ const counterReducer = (state = initialState, action) => {
       newState.bad++
       return newState
     case 'ZERO':
-      return state
+      return initialState
   }
   return state
 }
