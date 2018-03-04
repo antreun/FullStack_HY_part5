@@ -92,7 +92,7 @@ class Blog extends React.Component {
 
       const addedBy = this.blog.user ? this.blog.user.username : "Anonymous"
       return (
-        <div style={blogStyle} onClick={this.toggleVisibility}>
+        <div className="info" style={blogStyle} onClick={this.toggleVisibility}>
           {this.blog.title} {this.blog.author}<br />
           <a target="_blank" href={this.blog.url}>{this.blog.url}</a><br />
           Added by {addedBy} <br />
@@ -102,7 +102,7 @@ class Blog extends React.Component {
       )
     } else {
       return (
-        <div style={blogStyle} onClick={this.toggleVisibility}>
+        <div className="info" style={blogStyle} onClick={this.toggleVisibility}>
           {this.blog.title} {this.blog.author}
           </div>
         )
